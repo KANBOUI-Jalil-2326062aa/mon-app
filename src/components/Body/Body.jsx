@@ -10,7 +10,7 @@ function Body({ tasks, setTasks, categories }) {
     // Appliquer les filtres et le tri aux tâches
     const filteredTasks = tasks
         .filter(task =>
-            (selectedCategories.length === 0 || selectedCategories.includes(task.category.name)) &&
+            (selectedCategories.length === 0 || selectedCategories.includes(task.category?.name || task.category)) &&
             (selectedStates.length === 0 || selectedStates.includes(task.etat))
         )
         .sort((a, b) => {

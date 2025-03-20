@@ -33,7 +33,6 @@ function Filters({ categories, selectedCategories, setSelectedCategories, select
                 ) : (
                     <p>Aucune catégorie disponible</p>
                 )}
-
             </div>
             <div>
                 <label>États :</label>
