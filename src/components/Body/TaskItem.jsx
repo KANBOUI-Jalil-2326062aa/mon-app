@@ -1,19 +1,26 @@
+import { useState } from "react";
+
 function TaskItem({ task }) {
+    const [showDetails, setShowDetails] = useState(false); // État pour afficher/masquer les détails
+
     return (
-        <li>
-            {/* Affichage du titre de la tâche avec gestion de l'état "accomplie" */}
+        <li onClick={() => setShowDetails(!showDetails)}>
+            {/* Affichage du titre, état et urgence */}
             <span style={{ textDecoration: task.etat === "Reussi" ? "line-through" : "none" }}>
                 {task.title}
             </span>
-
-            {/* Affichage de l'état */}
             <span> ({task.etat}) </span>
-
-            {/* Affichage de la date d'échéance */}
             <span> - Échéance : {task.date_echeance} </span>
-
-            {/* Indicateur si la tâche est urgente */}
             {task.urgent && <strong style={{ color: "red" }}> URGENT </strong>}
+
+            {/* Affichage des détails au clic */}
+            {showDetails && (
+                <div>
+                    <p><strong>Description :</strong> {task.description || "Aucune description"}</p>
+                    <p><strong>Date de création :</strong> {task.date_creation}</p>
+                    <p><strong>Date d'échéance :</strong> {task.date_echeance || "Non défini"}</p>
+                </div>
+            )}
         </li>
     );
 }

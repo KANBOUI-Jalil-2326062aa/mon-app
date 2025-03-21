@@ -43,7 +43,7 @@ function App() {
             title: newTask.title,
             description: newTask.description || "",
             date_creation: new Date().toISOString().split("T")[0],
-            date_echeance: newTask.dateEcheance,
+            date_echeance: newTask.date_echeance,
             etat: newTask.etat,
             urgent: newTask.urgent || false
         };
