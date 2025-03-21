@@ -1,42 +1,49 @@
 function Filters({ categories, selectedCategories, setSelectedCategories, selectedStates, setSelectedStates, onSort }) {
-    const handleCategoryChange = (categoryName) => {
+
+    // Gestion de la sélection des catégories (via ID)
+    const handleCategoryChange = (categoryId) => {
         setSelectedCategories(prev =>
-            prev.includes(categoryName)
-                ? prev.filter(c => c !== categoryName)
-                : [...prev, categoryName]
+            prev.includes(categoryId)
+                ? prev.filter(c => c !== categoryId) // Supprime si déjà sélectionné
+                : [...prev, categoryId] // Ajoute sinon
         );
     };
 
+    // Gestion de la sélection des états
     const handleStateChange = (state) => {
         setSelectedStates(prev =>
             prev.includes(state)
-                ? prev.filter(s => s !== state)
-                : [...prev, state]
+                ? prev.filter(s => s !== state) // Supprime si déjà sélectionné
+                : [...prev, state] // Ajoute sinon
         );
     };
 
     return (
         <div>
             <h3>Filtres</h3>
+
+            {/* Filtre par Catégorie */}
             <div>
                 <label>Catégories :</label>
                 {categories.length > 0 ? (
-                    categories.map((category, index) => (
+                    categories.map((category) => (
                         <button
-                            key={index}
-                            onClick={() => handleCategoryChange(category.name)}
-                            style={{ backgroundColor: selectedCategories.includes(category.name) ? "#ccc" : "white" }}
+                            key={category.id}
+                            onClick={() => handleCategoryChange(category.id)}
+                            style={{ backgroundColor: selectedCategories.includes(category.id) ? "#ccc" : "white" }}
                         >
-                            {category.name}
+                            {category.title}
                         </button>
                     ))
                 ) : (
                     <p>Aucune catégorie disponible</p>
                 )}
             </div>
+
+            {/* Filtre par État */}
             <div>
                 <label>États :</label>
-                {["prévue", "en cours", "urgente", "accomplie"].map((state) => (
+                {["Nouveau", "En cours", "Reussi", "En attente", "Abandonné"].map((state) => (
                     <button
                         key={state}
                         onClick={() => handleStateChange(state)}
@@ -46,12 +53,14 @@ function Filters({ categories, selectedCategories, setSelectedCategories, select
                     </button>
                 ))}
             </div>
+
+            {/* Sélection du mode de tri */}
             <div>
                 <label>Trier par :</label>
                 <select onChange={(e) => onSort(e.target.value)}>
-                    <option value="dateCreation">Date de création</option>
-                    <option value="dateEcheance">Date d’échéance</option>
-                    <option value="nom">Nom</option>
+                    <option value="date_creation">Date de création</option>
+                    <option value="date_echeance">Date d’échéance</option>
+                    <option value="title">Nom</option>
                 </select>
             </div>
         </div>

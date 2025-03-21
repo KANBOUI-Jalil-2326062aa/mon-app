@@ -3,11 +3,15 @@ import TaskChart from "./TaskChart";
 
 function Header({ tasks }) {
     return (
-        <header>
-            <h1>Ma Todo-List</h1>
+        <div>
+            <h1>To-Do List</h1>
+
+            {/* Affichage des statistiques des tâches */}
             <TaskStats tasks={tasks} />
+
+            {/* Affichage du camembert de répartition des tâches par état */}
             <TaskChart tasks={tasks} />
-        </header>
+        </div>
     );
 }
 

@@ -2,27 +2,34 @@ import TaskList from "./TaskList";
 import Filters from "./Filters";
 import { useState } from "react";
 
-function Body({ tasks, setTasks, categories }) {
+function Body({ tasks, setTasks, categories, relations }) {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedStates, setSelectedStates] = useState([]);
-    const [sortBy, setSortBy] = useState("dateEcheance");
+    const [sortBy, setSortBy] = useState("date_echeance"); // Par défaut, trié par date d'échéance
 
     // Appliquer les filtres et le tri aux tâches
     const filteredTasks = tasks
-        .filter(task =>
-            (selectedCategories.length === 0 || selectedCategories.includes(task.category?.name || task.category)) &&
-            (selectedStates.length === 0 || selectedStates.includes(task.etat))
-        )
+        .filter(task => {
+            const taskCategories = relations
+                .filter(relation => relation.tache === task.id)
+                .map(relation => relation.categorie);
+
+            const categoryMatch = selectedCategories.length === 0 || taskCategories.some(catId => selectedCategories.includes(catId));
+            const stateMatch = selectedStates.length === 0 || selectedStates.includes(task.etat);
+
+            return categoryMatch && stateMatch;
+        })
         .sort((a, b) => {
-            if (sortBy === "dateCreation") return new Date(a.dateCreation) - new Date(b.dateCreation);
-            if (sortBy === "dateEcheance") return new Date(a.dateEcheance) - new Date(b.dateEcheance);
-            if (sortBy === "nom") return a.nom.localeCompare(b.nom);
+            if (sortBy === "date_creation") return new Date(a.date_creation) - new Date(b.date_creation);
+            if (sortBy === "date_echeance") return new Date(a.date_echeance) - new Date(b.date_echeance);
+            if (sortBy === "title") return a.title.localeCompare(b.title);
             return 0;
         });
 
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {/* Filtres et tri en haut */}
+            <div>
                 <Filters
                     categories={categories}
                     selectedCategories={selectedCategories}
@@ -32,7 +39,9 @@ function Body({ tasks, setTasks, categories }) {
                     onSort={setSortBy}
                 />
             </div>
-            <TaskList tasks={filteredTasks} />
+
+            {/* Liste des tâches affichées après filtrage */}
+            <TaskList tasks={filteredTasks} relations={relations} selectedCategories={selectedCategories} selectedStates={selectedStates} />
         </div>
     );
 }
