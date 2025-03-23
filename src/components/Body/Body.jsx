@@ -28,8 +28,8 @@ function Body({ tasks, setTasks, categories, relations, onDeleteTask }) {
         });
 
     return (
-        <div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className="body">
+            <div className="filters-container">
                 <Filters
                     categories={categories}
                     selectedCategories={selectedCategories}
@@ -42,15 +42,17 @@ function Body({ tasks, setTasks, categories, relations, onDeleteTask }) {
                 />
             </div>
 
-            <TaskList
-                tasks={filteredTasks}
-                setTasks={setTasks}
-                relations={relations}
-                selectedCategories={selectedCategories}
-                selectedStates={selectedStates}
-                sortBy={sortBy}
-                onDelete={onDeleteTask}
-            />
+            <div className="task-list-container">
+                <TaskList
+                    tasks={filteredTasks}
+                    setTasks={setTasks}
+                    relations={relations}
+                    selectedCategories={selectedCategories}
+                    selectedStates={selectedStates}
+                    sortBy={sortBy}
+                    onDelete={onDeleteTask}
+                />
+            </div>
         </div>
     );
 }

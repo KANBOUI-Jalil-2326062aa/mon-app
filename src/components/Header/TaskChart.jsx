@@ -17,10 +17,11 @@ function TaskChart({ tasks }) {
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"];
 
     return (
-        <div>
-            <h3>Répartition des tâches par état</h3>
+        <div className="task-chart">
+            <h3 className="task-chart-title">Répartition des tâches par état</h3>
+
             {data.length > 0 ? (
-                <PieChart width={300} height={300}>
+                <PieChart width={300} height={300} className="task-chart-pie">
                     <Pie
                         data={data}
                         cx="50%"
@@ -37,7 +38,7 @@ function TaskChart({ tasks }) {
                     <Tooltip />
                 </PieChart>
             ) : (
-                <p>Aucune tâche à afficher</p>
+                <p className="task-chart-empty">Aucune tâche à afficher</p>
             )}
         </div>
     );

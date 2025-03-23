@@ -6,10 +6,10 @@ function TaskStats({ tasks }) {
     const pendingTasks = tasks.filter(task => task.etat !== "Reussi" && task.etat !== "Abandonné").length;
 
     return (
-        <div>
-            <h3>Statistiques des Tâches</h3>
-            <p>Nombre total de tâches : {totalTasks}</p>
-            <p>Nombre de tâches non accomplies : {pendingTasks}</p>
+        <div className="task-stats">
+            <h3 className="task-stats-title">Statistiques des Tâches</h3>
+            <p className="task-stats-total">Nombre total de tâches : {totalTasks}</p>
+            <p className="task-stats-pending">Nombre de tâches non accomplies : {pendingTasks}</p>
         </div>
     );
 }

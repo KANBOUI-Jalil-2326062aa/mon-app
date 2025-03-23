@@ -29,52 +29,60 @@ function Filters({
     };
 
     return (
-        <div>
-            <h3>Filtres</h3>
+        <div className="filters-container">
+            <h3 className="filters-title">Filtres</h3>
 
-            <div>
-                <label>Catégories :</label>
-                {categories.length > 0 ? (
-                    categories.map((category) => (
+            {/* Catégories */}
+            <div className="filter-group">
+                <label className="filter-label">Catégories :</label>
+                <div className="filter-options">
+                    {categories.length > 0 ? (
+                        categories.map((category) => (
+                            <button
+                                key={category.id}
+                                className={`filter-button ${selectedCategories.includes(category.id) ? "active" : ""}`}
+                                onClick={() => handleCategoryChange(category.id)}
+                            >
+                                {category.title}
+                            </button>
+                        ))
+                    ) : (
+                        <p className="filter-empty">Aucune catégorie disponible</p>
+                    )}
+                </div>
+            </div>
+
+            {/* États */}
+            <div className="filter-group">
+                <label className="filter-label">États :</label>
+                <div className="filter-options">
+                    {["Nouveau", "En cours", "En attente", "Reussi", "Abandonné"].map((state) => (
                         <button
-                            key={category.id}
-                            onClick={() => handleCategoryChange(category.id)}
-                            style={{ backgroundColor: selectedCategories.includes(category.id) ? "#ccc" : "white" }}
+                            key={state}
+                            className={`filter-button ${selectedStates.includes(state) ? "active" : ""}`}
+                            onClick={() => handleStateChange(state)}
                         >
-                            {category.title}
+                            {state}
                         </button>
-                    ))
-                ) : (
-                    <p>Aucune catégorie disponible</p>
-                )}
+                    ))}
+                </div>
             </div>
 
-            <div>
-                <label>États :</label>
-                {["Nouveau", "En cours", "En attente", "Reussi", "Abandonné"].map((state) => (
-                    <button
-                        key={state}
-                        onClick={() => handleStateChange(state)}
-                        style={{ backgroundColor: selectedStates.includes(state) ? "#ccc" : "white" }}
-                    >
-                        {state}
-                    </button>
-                ))}
-            </div>
-
-            <div>
-                <label>Urgente </label>
+            {/* Urgent */}
+            <div className="filter-group">
+                <label className="filter-label">Urgente :</label>
                 <button
+                    className={`filter-button ${filterUrgent ? "active" : ""}`}
                     onClick={toggleUrgent}
-                    style={{ backgroundColor: filterUrgent ? "#ccc" : "white" }}
                 >
                     {filterUrgent ? "Filtrer : Urgentes" : "Toutes"}
                 </button>
             </div>
 
-            <div>
-                <label>Trier par :</label>
-                <select onChange={(e) => onSort(e.target.value)}>
+            {/* Tri */}
+            <div className="filter-group">
+                <label className="filter-label">Trier par :</label>
+                <select className="filter-select" onChange={(e) => onSort(e.target.value)}>
                     <option value="dateCreation">Date de création</option>
                     <option value="dateEcheance">Date d’échéance</option>
                     <option value="title">Nom</option>

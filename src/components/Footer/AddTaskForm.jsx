@@ -3,10 +3,10 @@ import { useState } from "react";
 function AddTaskForm({ onAddTask, categories }) {
     const [taskTitle, setTaskTitle] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
-    const [taskCategoryId, setTaskCategoryId] = useState(""); // Stocke l'ID de la catégorie
+    const [taskCategoryId, setTaskCategoryId] = useState("");
     const [taskDateEcheance, setTaskDateEcheance] = useState("");
-    const [taskEtat, setTaskEtat] = useState("Nouveau"); // État par défaut
-    const [taskUrgent, setTaskUrgent] = useState(false); // Urgent en booléen
+    const [taskEtat, setTaskEtat] = useState("Nouveau");
+    const [taskUrgent, setTaskUrgent] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,18 +19,16 @@ function AddTaskForm({ onAddTask, categories }) {
             return;
         }
 
-        // Création de l'objet tâche au bon format
         onAddTask({
-            title: taskTitle, // Anciennement 'nom'
+            title: taskTitle,
             description: taskDescription || "",
-            categoryId: taskCategoryId ? parseInt(taskCategoryId) : null, // Stocke l'ID et non le nom
-            date_creation: new Date().toISOString().split("T")[0], // Auto-rempli
+            categoryId: taskCategoryId ? parseInt(taskCategoryId) : null,
+            date_creation: new Date().toISOString().split("T")[0],
             date_echeance: taskDateEcheance,
             etat: taskEtat,
             urgent: taskUrgent
         });
 
-        // Réinitialisation des champs après ajout
         setTaskTitle("");
         setTaskDescription("");
         setTaskCategoryId("");
@@ -40,37 +38,37 @@ function AddTaskForm({ onAddTask, categories }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h3>Ajouter une Tâche</h3>
+        <form onSubmit={handleSubmit} className="form task-form">
+            <h3 className="form-title">Ajouter une Tâche</h3>
 
-            {/* Champ Titre */}
-            <label>
-                Titre :
+            <div className="form-group">
+                <label>Titre :</label>
                 <input
                     type="text"
                     value={taskTitle}
                     onChange={(e) => setTaskTitle(e.target.value)}
                     placeholder="Titre de la tâche"
                     required
+                    className="form-control"
                 />
-            </label>
+            </div>
 
-            {/* Champ Description */}
-            <label>
-                Description :
+            <div className="form-group">
+                <label>Description :</label>
                 <textarea
                     value={taskDescription}
                     onChange={(e) => setTaskDescription(e.target.value)}
                     placeholder="Description de la tâche (optionnel)"
+                    className="form-control"
                 />
-            </label>
+            </div>
 
-            {/* Sélection de la Catégorie */}
-            <label>
-                Catégorie :
+            <div className="form-group">
+                <label>Catégorie :</label>
                 <select
                     value={taskCategoryId}
                     onChange={(e) => setTaskCategoryId(e.target.value)}
+                    className="form-control"
                 >
                     <option value="">Sélectionner une catégorie</option>
                     {categories.length > 0 ? (
@@ -83,25 +81,25 @@ function AddTaskForm({ onAddTask, categories }) {
                         <option disabled>Aucune catégorie disponible</option>
                     )}
                 </select>
-            </label>
+            </div>
 
-            {/* Sélection de la Date d'échéance */}
-            <label>
-                Date d'échéance :
+            <div className="form-group">
+                <label>Date d'échéance :</label>
                 <input
                     type="date"
                     value={taskDateEcheance}
                     onChange={(e) => setTaskDateEcheance(e.target.value)}
                     required
+                    className="form-control"
                 />
-            </label>
+            </div>
 
-            {/* Sélection de l'État */}
-            <label>
-                État :
+            <div className="form-group">
+                <label>État :</label>
                 <select
                     value={taskEtat}
                     onChange={(e) => setTaskEtat(e.target.value)}
+                    className="form-control"
                 >
                     <option value="Nouveau">Nouveau</option>
                     <option value="En cours">En cours</option>
@@ -109,20 +107,20 @@ function AddTaskForm({ onAddTask, categories }) {
                     <option value="Reussi">Réussi</option>
                     <option value="Abandonné">Abandonné</option>
                 </select>
-            </label>
+            </div>
 
-            {/* Case à cocher pour Urgent */}
-            <label>
-                <input
-                    type="checkbox"
-                    checked={taskUrgent}
-                    onChange={(e) => setTaskUrgent(e.target.checked)}
-                />
-                Urgent
-            </label>
+            <div className="form-group checkbox-group">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={taskUrgent}
+                        onChange={(e) => setTaskUrgent(e.target.checked)}
+                    />
+                    Urgent
+                </label>
+            </div>
 
-            {/* Bouton d'ajout */}
-            <button type="submit">
+            <button type="submit" className="btn">
                 Ajouter
             </button>
         </form>

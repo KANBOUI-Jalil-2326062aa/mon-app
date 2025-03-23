@@ -38,11 +38,11 @@ function TaskList({ tasks, setTasks, relations, selectedCategories = [], selecte
     };
 
     return (
-        <div>
+        <div className="task-list-container">
             {filteredTasks.length === 0 ? (
-                <p>Aucune tâche disponible</p>
+                <p className="task-list-empty">Aucune tâche disponible</p>
             ) : (
-                <ul>
+                <ul className="task-list">
                     {filteredTasks.map(task => (
                         <TaskItem
                             key={task.id}

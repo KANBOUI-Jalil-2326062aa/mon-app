@@ -3,15 +3,19 @@ import TaskChart from "./TaskChart";
 
 function Header({ tasks }) {
     return (
-        <div>
-            <h1>To-Do List</h1>
+        <header className="header">
+            <h1 className="header-title">To-Do List</h1>
 
             {/* Affichage des statistiques des tâches */}
-            <TaskStats tasks={tasks} />
+            <div className="header-stats">
+                <TaskStats tasks={tasks} />
+            </div>
 
             {/* Affichage du camembert de répartition des tâches par état */}
-            <TaskChart tasks={tasks} />
-        </div>
+            <div className="header-chart">
+                <TaskChart tasks={tasks} />
+            </div>
+        </header>
     );
 }
 

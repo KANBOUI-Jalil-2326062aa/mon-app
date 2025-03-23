@@ -1,25 +1,58 @@
+import { useState } from "react";
 import AddTaskForm from "./AddTaskForm";
 import AddCategoryForm from "./AddCategoryForm";
-import { useState } from "react";
 
 function Footer({ onAddTask, onAddCategory, categories }) {
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [showCategoryForm, setShowCategoryForm] = useState(false);
 
     return (
-        <div>
-            <h3>À ajouter</h3>
+        <footer className="footer">
+            <h3 className="footer-title">À ajouter</h3>
 
-            {/* Boutons pour afficher les formulaires */}
-            <button onClick={() => setShowTaskForm(!showTaskForm)}>Tâche</button>
-            <button onClick={() => setShowCategoryForm(!showCategoryForm)}>Catégorie</button>
+            <div className="footer-buttons">
+                <button
+                    className="footer-btn"
+                    onClick={() => setShowTaskForm(true)}
+                >
+                    Tâche
+                </button>
+                <button
+                    className="footer-btn"
+                    onClick={() => setShowCategoryForm(true)}
+                >
+                    Catégorie
+                </button>
+            </div>
 
-            {/* Formulaire d'ajout de tâche */}
-            {showTaskForm && <AddTaskForm onAddTask={onAddTask} categories={categories} />}
+            {showTaskForm && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <button
+                            className="modal-close"
+                            onClick={() => setShowTaskForm(false)}
+                        >
+                            ×
+                        </button>
+                        <AddTaskForm onAddTask={onAddTask} categories={categories} />
+                    </div>
+                </div>
+            )}
 
-            {/* Formulaire d'ajout de catégorie */}
-            {showCategoryForm && <AddCategoryForm onAddCategory={onAddCategory} />}
-        </div>
+            {showCategoryForm && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <button
+                            className="modal-close"
+                            onClick={() => setShowCategoryForm(false)}
+                        >
+                            ×
+                        </button>
+                        <AddCategoryForm onAddCategory={onAddCategory} />
+                    </div>
+                </div>
+            )}
+        </footer>
     );
 }
 

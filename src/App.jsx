@@ -14,7 +14,6 @@ function App() {
     const [categories, setCategories] = useState([]);
     const [relations, setRelations] = useState([]);
 
-    // Charger les données au démarrage
     useEffect(() => {
         const storedTasks = loadTasks();
         const storedCategories = loadCategories();
@@ -46,23 +45,18 @@ function App() {
         }
     }, []);
 
-
-    // Sauvegarder les tâches à chaque mise à jour
     useEffect(() => {
         saveTasks(tasks);
     }, [tasks]);
 
-    // Sauvegarder les catégories à chaque mise à jour
     useEffect(() => {
         saveCategories(categories);
     }, [categories]);
 
-    // Sauvegarder les relations à chaque mise à jour
     useEffect(() => {
         saveRelations(relations);
     }, [relations]);
 
-    // Ajouter une tâche
     const addTask = (newTask) => {
         const taskWithId = {
             id: Date.now(),
@@ -85,7 +79,6 @@ function App() {
         }
     };
 
-    // Ajouter une catégorie
     const addCategory = (newCategory) => {
         const categoryWithId = {
             id: Date.now(),
@@ -99,7 +92,6 @@ function App() {
         saveCategory(categoryWithId);
     };
 
-    // Supprimer une tâche
     const deleteTask = (taskId) => {
         const updatedTasks = tasks.filter(task => task.id !== taskId);
         setTasks(updatedTasks);
@@ -111,7 +103,7 @@ function App() {
     };
 
     return (
-        <div>
+        <div className="app-container">
             <Header tasks={tasks} />
             <Body
                 tasks={tasks}

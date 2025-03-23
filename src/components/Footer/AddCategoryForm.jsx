@@ -2,8 +2,8 @@ import { useState } from "react";
 
 function AddCategoryForm({ onAddCategory }) {
     const [categoryTitle, setCategoryTitle] = useState("");
-    const [categoryColor, setCategoryColor] = useState("#000000"); // Couleur par défaut
-    const [categoryActif, setCategoryActif] = useState(true); // Actif par défaut
+    const [categoryColor, setCategoryColor] = useState("#000000");
+    const [categoryActif, setCategoryActif] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -12,58 +12,56 @@ function AddCategoryForm({ onAddCategory }) {
             return;
         }
 
-        // Création de l'objet catégorie au bon format
         onAddCategory({
-            title: categoryTitle, // Anciennement 'name'
+            title: categoryTitle,
             color: categoryColor,
-            icon: "", // Icône vide par défaut
+            icon: "",
             actif: categoryActif
         });
 
-        // Réinitialisation des champs après ajout
         setCategoryTitle("");
         setCategoryColor("#000000");
         setCategoryActif(true);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h3>Ajouter une Catégorie</h3>
+        <form onSubmit={handleSubmit} className="form category-form">
+            <h3 className="form-title">Ajouter une Catégorie</h3>
 
-            {/* Champ Titre */}
-            <label>
-                Nom de la catégorie :
+            <div className="form-group">
+                <label>Nom de la catégorie :</label>
                 <input
                     type="text"
                     value={categoryTitle}
                     onChange={(e) => setCategoryTitle(e.target.value)}
                     placeholder="Nom de la catégorie"
                     required
+                    className="form-control"
                 />
-            </label>
+            </div>
 
-            {/* Sélecteur de Couleur */}
-            <label>
-                Couleur :
+            <div className="form-group">
+                <label>Couleur :</label>
                 <input
                     type="color"
                     value={categoryColor}
                     onChange={(e) => setCategoryColor(e.target.value)}
+                    className="form-control"
                 />
-            </label>
+            </div>
 
-            {/* Case à cocher pour Actif */}
-            <label>
-                <input
-                    type="checkbox"
-                    checked={categoryActif}
-                    onChange={(e) => setCategoryActif(e.target.checked)}
-                />
-                Actif
-            </label>
+            <div className="form-group checkbox-group">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={categoryActif}
+                        onChange={(e) => setCategoryActif(e.target.checked)}
+                    />
+                    Actif
+                </label>
+            </div>
 
-            {/* Bouton d'ajout */}
-            <button type="submit">
+            <button type="submit" className="btn">
                 Ajouter
             </button>
         </form>
