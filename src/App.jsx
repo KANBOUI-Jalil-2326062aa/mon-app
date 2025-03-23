@@ -16,10 +16,36 @@ function App() {
 
     // Charger les données au démarrage
     useEffect(() => {
-        setTasks(loadTasks());
-        setCategories(loadCategories());
-        setRelations(loadRelations());
+        const storedTasks = loadTasks();
+        const storedCategories = loadCategories();
+        const storedRelations = loadRelations();
+
+        const isEmpty = storedTasks.length === 0 && storedCategories.length === 0 && storedRelations.length === 0;
+
+        if (isEmpty) {
+            fetch("/taches.json")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("✅ Données chargées depuis taches.json :", data);
+
+                    setTasks(data.taches || []);
+                    setCategories(data.categories || []);
+                    setRelations(data.relations || []);
+
+                    saveTasks(data.taches || []);
+                    saveCategories(data.categories || []);
+                    saveRelations(data.relations || []);
+                })
+                .catch(error => {
+                    console.error("❌ Erreur lors du chargement de taches.json :", error);
+                });
+        } else {
+            setTasks(storedTasks);
+            setCategories(storedCategories);
+            setRelations(storedRelations);
+        }
     }, []);
+
 
     // Sauvegarder les tâches à chaque mise à jour
     useEffect(() => {

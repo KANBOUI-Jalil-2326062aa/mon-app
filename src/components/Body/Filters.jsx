@@ -51,7 +51,7 @@ function Filters({
 
             <div>
                 <label>États :</label>
-                {["Nouveau", "En cours", "En attente", "Reussi"].map((state) => (
+                {["Nouveau", "En cours", "En attente", "Reussi", "Abandonné"].map((state) => (
                     <button
                         key={state}
                         onClick={() => handleStateChange(state)}

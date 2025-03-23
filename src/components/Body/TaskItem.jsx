@@ -25,7 +25,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
         <li>
             {!isEditing ? (
                 <div onClick={() => setShowDetails(!showDetails)}>
-                    <span style={{ textDecoration: task.etat === "Reussi" ? "line-through" : "none" }}>
+                    <span style={{ textDecoration: (task.etat === "Reussi" || task.etat === "Abandonné") ? "line-through" : "none" }}>
                         {task.title}
                     </span>
                     <span> ({task.etat}) </span>
@@ -75,6 +75,7 @@ function TaskItem({ task, onUpdate, onDelete }) {
                         <option value="En cours">En cours</option>
                         <option value="En attente">En attente</option>
                         <option value="Reussi">Réussi</option>
+                        <option value="Abandonné">Abandonné</option>
                     </select><br />
 
                     <label>Urgent :</label>

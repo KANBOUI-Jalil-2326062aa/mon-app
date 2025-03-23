@@ -107,6 +107,7 @@ function AddTaskForm({ onAddTask, categories }) {
                     <option value="En cours">En cours</option>
                     <option value="En attente">En attente</option>
                     <option value="Reussi">Réussi</option>
+                    <option value="Abandonné">Abandonné</option>
                 </select>
             </label>
 
