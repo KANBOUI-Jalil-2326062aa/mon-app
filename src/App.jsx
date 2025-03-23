@@ -36,14 +36,14 @@ function App() {
         saveRelations(relations);
     }, [relations]);
 
-    // Ajouter une tâche avec le bon format
+    // Ajouter une tâche
     const addTask = (newTask) => {
         const taskWithId = {
             id: Date.now(),
             title: newTask.title,
             description: newTask.description || "",
             date_creation: new Date().toISOString().split("T")[0],
-            date_echeance: newTask.date_echeance,
+            date_echeance: newTask.date_echeance || "",
             etat: newTask.etat,
             urgent: newTask.urgent || false
         };
@@ -51,15 +51,15 @@ function App() {
         setTasks([...tasks, taskWithId]);
         saveTask(taskWithId);
 
-        // Ajouter la relation tâche-catégorie si une catégorie est sélectionnée
         if (newTask.categoryId) {
             const newRelation = { tache: taskWithId.id, categorie: newTask.categoryId };
-            setRelations([...relations, newRelation]);
-            saveRelations([...relations, newRelation]);
+            const updatedRelations = [...relations, newRelation];
+            setRelations(updatedRelations);
+            saveRelations(updatedRelations);
         }
     };
 
-    // Ajouter une catégorie avec le bon format
+    // Ajouter une catégorie
     const addCategory = (newCategory) => {
         const categoryWithId = {
             id: Date.now(),
@@ -73,11 +73,32 @@ function App() {
         saveCategory(categoryWithId);
     };
 
+    // Supprimer une tâche
+    const deleteTask = (taskId) => {
+        const updatedTasks = tasks.filter(task => task.id !== taskId);
+        setTasks(updatedTasks);
+        saveTasks(updatedTasks);
+
+        const updatedRelations = relations.filter(rel => rel.tache !== taskId);
+        setRelations(updatedRelations);
+        saveRelations(updatedRelations);
+    };
+
     return (
         <div>
             <Header tasks={tasks} />
-            <Body tasks={tasks} setTasks={setTasks} categories={categories} relations={relations} />
-            <Footer onAddTask={addTask} onAddCategory={addCategory} categories={categories} />
+            <Body
+                tasks={tasks}
+                setTasks={setTasks}
+                categories={categories}
+                relations={relations}
+                onDeleteTask={deleteTask}
+            />
+            <Footer
+                onAddTask={addTask}
+                onAddCategory={addCategory}
+                categories={categories}
+            />
         </div>
     );
 }
