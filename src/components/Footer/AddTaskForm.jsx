@@ -14,6 +14,10 @@ function AddTaskForm({ onAddTask, categories }) {
             alert("Le titre de la tâche doit contenir au moins 3 caractères.");
             return;
         }
+        if (taskCategoryId.length === 0) {
+            alert("Une catégorie doit être attribuée à la tache.");
+            return;
+        }
 
         // Création de l'objet tâche au bon format
         onAddTask({
@@ -103,7 +107,6 @@ function AddTaskForm({ onAddTask, categories }) {
                     <option value="En cours">En cours</option>
                     <option value="En attente">En attente</option>
                     <option value="Reussi">Réussi</option>
-                    <option value="Abandonné">Abandonné</option>
                 </select>
             </label>
 

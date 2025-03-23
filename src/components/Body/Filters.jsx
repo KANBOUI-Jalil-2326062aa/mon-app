@@ -1,28 +1,37 @@
-function Filters({ categories, selectedCategories, setSelectedCategories, selectedStates, setSelectedStates, onSort }) {
-
-    // Gestion de la sélection des catégories (via ID)
+function Filters({
+                     categories,
+                     selectedCategories,
+                     setSelectedCategories,
+                     selectedStates,
+                     setSelectedStates,
+                     filterUrgent,
+                     setFilterUrgent,
+                     onSort
+                 }) {
     const handleCategoryChange = (categoryId) => {
         setSelectedCategories(prev =>
             prev.includes(categoryId)
-                ? prev.filter(c => c !== categoryId) // Supprime si déjà sélectionné
-                : [...prev, categoryId] // Ajoute sinon
+                ? prev.filter(c => c !== categoryId)
+                : [...prev, categoryId]
         );
     };
 
-    // Gestion de la sélection des états
     const handleStateChange = (state) => {
         setSelectedStates(prev =>
             prev.includes(state)
-                ? prev.filter(s => s !== state) // Supprime si déjà sélectionné
-                : [...prev, state] // Ajoute sinon
+                ? prev.filter(s => s !== state)
+                : [...prev, state]
         );
+    };
+
+    const toggleUrgent = () => {
+        setFilterUrgent(prev => !prev);
     };
 
     return (
         <div>
             <h3>Filtres</h3>
 
-            {/* Filtre par Catégorie */}
             <div>
                 <label>Catégories :</label>
                 {categories.length > 0 ? (
@@ -40,10 +49,9 @@ function Filters({ categories, selectedCategories, setSelectedCategories, select
                 )}
             </div>
 
-            {/* Filtre par État */}
             <div>
                 <label>États :</label>
-                {["Nouveau", "En cours", "Reussi", "En attente", "Abandonné"].map((state) => (
+                {["Nouveau", "En cours", "En attente", "Reussi"].map((state) => (
                     <button
                         key={state}
                         onClick={() => handleStateChange(state)}
@@ -54,12 +62,21 @@ function Filters({ categories, selectedCategories, setSelectedCategories, select
                 ))}
             </div>
 
-            {/* Sélection du mode de tri */}
+            <div>
+                <label>Urgente </label>
+                <button
+                    onClick={toggleUrgent}
+                    style={{ backgroundColor: filterUrgent ? "#ccc" : "white" }}
+                >
+                    {filterUrgent ? "Filtrer : Urgentes" : "Toutes"}
+                </button>
+            </div>
+
             <div>
                 <label>Trier par :</label>
                 <select onChange={(e) => onSort(e.target.value)}>
-                    <option value="date_creation">Date de création</option>
-                    <option value="date_echeance">Date d’échéance</option>
+                    <option value="dateCreation">Date de création</option>
+                    <option value="dateEcheance">Date d’échéance</option>
                     <option value="title">Nom</option>
                 </select>
             </div>

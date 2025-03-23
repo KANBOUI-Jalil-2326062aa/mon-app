@@ -36,13 +36,28 @@ function TaskItem({ task, onUpdate, onDelete }) {
                         <div>
                             <p><strong>Description :</strong> {task.description || "Aucune description"}</p>
                             <p><strong>Date de création :</strong> {task.date_creation}</p>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsEditing(true);
+                                }}
+                            >
+                                Modifier
+                            </button>
+
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (window.confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
+                                        onDelete(task.id);
+                                    }
+                                }}
+                            >
+                                Supprimer
+                            </button>
                         </div>
                     )}
-
-                    <div>
-                        <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Modifier</button>
-                        <button onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}>Supprimer</button>
-                    </div>
                 </div>
             ) : (
                 <div>
@@ -57,10 +72,9 @@ function TaskItem({ task, onUpdate, onDelete }) {
                     <label>État :</label><br />
                     <select value={editedEtat} onChange={(e) => setEditedEtat(e.target.value)}>
                         <option value="Nouveau">Nouveau</option>
-                        <option value="En attente">En attente</option>
                         <option value="En cours">En cours</option>
+                        <option value="En attente">En attente</option>
                         <option value="Reussi">Réussi</option>
-                        <option value="Abandonné">Abandonné</option>
                     </select><br />
 
                     <label>Urgent :</label>
