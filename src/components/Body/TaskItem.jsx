@@ -24,22 +24,31 @@ function TaskItem({ task, onUpdate, onDelete }) {
     return (
         <li className="task-item">
             {!isEditing ? (
-                <div className="task-view" onClick={() => setShowDetails(!showDetails)}>
-                    <span className={`task-title ${["Reussi", "Abandonné"].includes(task.etat) ? "task-done" : ""}`}>
-                        {task.title}
-                    </span>
-                    <span className="task-etat"> ({task.etat}) </span>
-                    <span className="task-date"> - Échéance : {task.date_echeance || "Non définie"} </span>
-                    {task.urgent && <strong className="task-urgent"> URGENT </strong>}
+                <div className="task-item-summary" onClick={() => setShowDetails(!showDetails)}>
+                    <div className="task-item-main">
+                        <span
+                            className={`task-item-title ${
+                                task.etat === "Reussi" || task.etat === "Abandonné" ? "task-done" : ""
+                            }`}
+                            style={{ textDecoration: (task.etat === "Reussi" || task.etat === "Abandonné") ? "line-through" : "none" }}
+                        >
+                            {task.title}
+                        </span>
+                        <span className="task-item-etat">{task.etat}</span>
+                        <span className="task-item-date">
+                            {task.date_echeance || "Non définie"}
+                        </span>
+                        {task.urgent && <strong className="task-item-urgent">URGENT</strong>}
+                    </div>
 
                     {showDetails && (
-                        <div className="task-details">
-                            <p><strong>Description :</strong> {task.description || "Aucune description"}</p>
+                        <div className="task-item-details">
+                            <p> {task.description || "Aucune description"}</p>
                             <p><strong>Date de création :</strong> {task.date_creation}</p>
 
-                            <div className="task-actions">
+                            <div className="task-item-buttons">
                                 <button
-                                    className="btn btn-edit"
+                                    className="btn-edit"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setIsEditing(true);
@@ -47,9 +56,8 @@ function TaskItem({ task, onUpdate, onDelete }) {
                                 >
                                     Modifier
                                 </button>
-
                                 <button
-                                    className="btn btn-delete"
+                                    className="btn-delete"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (window.confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
@@ -64,58 +72,49 @@ function TaskItem({ task, onUpdate, onDelete }) {
                     )}
                 </div>
             ) : (
-                <div className="task-edit">
-                    <h4 className="form-title">Modifier la tâche</h4>
+                <div className="task-item-edit">
+                    {isEditing && (
+                        <div className="modal-overlay">
+                            <div className="modal-content">
+                                <h2>Modifier la tâche</h2>
 
-                    <div className="form-group">
-                        <label>Description :</label>
-                        <textarea
-                            value={editedDescription}
-                            onChange={(e) => setEditedDescription(e.target.value)}
-                            className="form-control"
-                        />
-                    </div>
+                                <label>Description :</label>
+                                <textarea
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e.target.value)}
+                                />
 
-                    <div className="form-group">
-                        <label>État :</label>
-                        <select
-                            value={editedEtat}
-                            onChange={(e) => setEditedEtat(e.target.value)}
-                            className="form-control"
-                        >
-                            <option value="Nouveau">Nouveau</option>
-                            <option value="En cours">En cours</option>
-                            <option value="En attente">En attente</option>
-                            <option value="Reussi">Réussi</option>
-                            <option value="Abandonné">Abandonné</option>
-                        </select>
-                    </div>
+                                <label>État :</label>
+                                <select value={editedEtat} onChange={(e) => setEditedEtat(e.target.value)}>
+                                    <option value="Nouveau">Nouveau</option>
+                                    <option value="En cours">En cours</option>
+                                    <option value="En attente">En attente</option>
+                                    <option value="Reussi">Réussi</option>
+                                    <option value="Abandonné">Abandonné</option>
+                                </select>
 
-                    <div className="form-group checkbox-group">
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={editedUrgent}
-                                onChange={(e) => setEditedUrgent(e.target.checked)}
-                            />
-                            Urgent
-                        </label>
-                    </div>
+                                <label>Urgent :</label>
+                                <input
+                                    type="checkbox"
+                                    checked={editedUrgent}
+                                    onChange={(e) => setEditedUrgent(e.target.checked)}
+                                />
 
-                    <div className="form-group">
-                        <label>Date d’échéance :</label>
-                        <input
-                            type="date"
-                            value={editedDateEcheance}
-                            onChange={(e) => setEditedDateEcheance(e.target.value)}
-                            className="form-control"
-                        />
-                    </div>
+                                <label>Date d’échéance :</label>
+                                <input
+                                    type="date"
+                                    value={editedDateEcheance}
+                                    onChange={(e) => setEditedDateEcheance(e.target.value)}
+                                />
 
-                    <div className="form-actions">
-                        <button className="btn" onClick={handleSave}>Enregistrer</button>
-                        <button className="btn btn-cancel" onClick={() => setIsEditing(false)}>Annuler</button>
-                    </div>
+                                <div className="task-item-buttons">
+                                    <button className="btn-save" onClick={handleSave}>Enregistrer</button>
+                                    <button className="btn-cancel" onClick={() => setIsEditing(false)}>Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             )}
         </li>

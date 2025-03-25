@@ -7,11 +7,13 @@ function Body({ tasks, setTasks, categories, relations, onDeleteTask }) {
     const [selectedStates, setSelectedStates] = useState([]);
     const [filterUrgent, setFilterUrgent] = useState(false);
     const [sortBy, setSortBy] = useState("dateEcheance");
+    const [showFilters, setShowFilters] = useState(false);
+    const [showSortOptions, setShowSortOptions] = useState(false);
 
     // Appliquer les filtres et le tri aux tâches
     const filteredTasks = tasks
         .filter(task => {
-            const relation = relations.find(r => r.tache === task.id);
+            const relation = relations.find(rel => rel.tache === task.id);
             const categoryId = relation ? relation.categorie : null;
 
             const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(categoryId);
@@ -27,22 +29,56 @@ function Body({ tasks, setTasks, categories, relations, onDeleteTask }) {
             return 0;
         });
 
+
     return (
-        <div className="body">
-            <div className="filters-container">
-                <Filters
-                    categories={categories}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                    selectedStates={selectedStates}
-                    setSelectedStates={setSelectedStates}
-                    filterUrgent={filterUrgent}
-                    setFilterUrgent={setFilterUrgent}
-                    onSort={setSortBy}
-                />
+        <main className="body">
+            {/* Barre haute : tri et filtres */}
+            <div className="body-header">
+                <button
+                    className={`sort-button ${showSortOptions ? "selected" : ""}`}
+                    onClick={() => setShowSortOptions(!showSortOptions)}
+                >
+                    Trier
+                </button>
+
+
+                <button
+                    className={`filter-button ${showFilters ? "selected" : ""}`}
+                    onClick={() => setShowFilters(!showFilters)}
+                >
+                    Filtres
+                </button>
             </div>
 
-            <div className="task-list-container">
+            {/* Panneau des options de tri */}
+            {showSortOptions && (
+                <div className="sort-section select">
+                    <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
+                        <option value="dateCreation">Date de création</option>
+                        <option value="dateEcheance">Date d’échéance</option>
+                        <option value="title">Nom</option>
+                    </select>
+                </div>
+            )}
+
+            {/* Panneau des filtres */}
+            {showFilters && (
+                <div className="filter-section button">
+                    <Filters
+                        categories={categories}
+                        selectedCategories={selectedCategories}
+                        setSelectedCategories={setSelectedCategories}
+                        selectedStates={selectedStates}
+                        setSelectedStates={setSelectedStates}
+                        filterUrgent={filterUrgent}
+                        setFilterUrgent={setFilterUrgent}
+                        onSort={setSortBy}
+                    />
+                </div>
+            )}
+
+            {/* Zone des tâches scrollable */}
+            <div className="task-list-wrapper">
                 <TaskList
                     tasks={filteredTasks}
                     setTasks={setTasks}
@@ -53,7 +89,7 @@ function Body({ tasks, setTasks, categories, relations, onDeleteTask }) {
                     onDelete={onDeleteTask}
                 />
             </div>
-        </div>
+        </main>
     );
 }
 

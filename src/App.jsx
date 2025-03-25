@@ -14,6 +14,7 @@ function App() {
     const [categories, setCategories] = useState([]);
     const [relations, setRelations] = useState([]);
 
+    // Charger les données depuis le JSON ou le localStorage
     useEffect(() => {
         const storedTasks = loadTasks();
         const storedCategories = loadCategories();
@@ -57,6 +58,7 @@ function App() {
         saveRelations(relations);
     }, [relations]);
 
+    // Ajouter une tâche
     const addTask = (newTask) => {
         const taskWithId = {
             id: Date.now(),
@@ -79,6 +81,7 @@ function App() {
         }
     };
 
+    // Ajouter une catégorie
     const addCategory = (newCategory) => {
         const categoryWithId = {
             id: Date.now(),
@@ -92,6 +95,7 @@ function App() {
         saveCategory(categoryWithId);
     };
 
+    // Supprimer une tâche
     const deleteTask = (taskId) => {
         const updatedTasks = tasks.filter(task => task.id !== taskId);
         setTasks(updatedTasks);

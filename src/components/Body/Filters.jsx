@@ -29,38 +29,34 @@ function Filters({
     };
 
     return (
-        <div className="filters-container">
-            <h3 className="filters-title">Filtres</h3>
-
-            {/* Catégories */}
-            <div className="filter-group">
-                <label className="filter-label">Catégories :</label>
-                <div className="filter-options">
+        <div className="filters-panel">
+            <div className="filters-categories">
+                <label className="filters-label">Catégories</label>
+                <div className="filters-options">
                     {categories.length > 0 ? (
                         categories.map((category) => (
                             <button
                                 key={category.id}
-                                className={`filter-button ${selectedCategories.includes(category.id) ? "active" : ""}`}
                                 onClick={() => handleCategoryChange(category.id)}
+                                className={`filter-btn ${selectedCategories.includes(category.id) ? "selected" : ""}`}
                             >
                                 {category.title}
                             </button>
                         ))
                     ) : (
-                        <p className="filter-empty">Aucune catégorie disponible</p>
+                        <p className="filters-empty">Aucune catégorie</p>
                     )}
                 </div>
             </div>
 
-            {/* États */}
-            <div className="filter-group">
-                <label className="filter-label">États :</label>
-                <div className="filter-options">
+            <div className="filters-etats">
+                <label className="filters-label">États</label>
+                <div className="filters-options">
                     {["Nouveau", "En cours", "En attente", "Reussi", "Abandonné"].map((state) => (
                         <button
                             key={state}
-                            className={`filter-button ${selectedStates.includes(state) ? "active" : ""}`}
                             onClick={() => handleStateChange(state)}
+                            className={`filter-btn ${selectedStates.includes(state) ? "selected" : ""}`}
                         >
                             {state}
                         </button>
@@ -68,25 +64,16 @@ function Filters({
                 </div>
             </div>
 
-            {/* Urgent */}
-            <div className="filter-group">
-                <label className="filter-label">Urgente :</label>
-                <button
-                    className={`filter-button ${filterUrgent ? "active" : ""}`}
-                    onClick={toggleUrgent}
-                >
-                    {filterUrgent ? "Filtrer : Urgentes" : "Toutes"}
-                </button>
-            </div>
-
-            {/* Tri */}
-            <div className="filter-group">
-                <label className="filter-label">Trier par :</label>
-                <select className="filter-select" onChange={(e) => onSort(e.target.value)}>
-                    <option value="dateCreation">Date de création</option>
-                    <option value="dateEcheance">Date d’échéance</option>
-                    <option value="title">Nom</option>
-                </select>
+            <div className="filters-urgent">
+                <label className="filters-label">Urgentes</label>
+                <div className="filters-options">
+                    <button
+                        onClick={toggleUrgent}
+                        className={`filter-btn ${filterUrgent ? "selected" : ""}`}
+                    >
+                        {filterUrgent ? "Filtrer : Urgentes" : "Toutes"}
+                    </button>
+                </div>
             </div>
         </div>
     );

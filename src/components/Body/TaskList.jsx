@@ -1,6 +1,6 @@
 import TaskItem from "./TaskItem";
 
-function TaskList({ tasks, setTasks, relations, selectedCategories = [], selectedStates = [], sortBy }) {
+function TaskList({ tasks, setTasks, relations, selectedCategories = [], selectedStates = [], sortBy, onDelete }) {
     // Fonction de tri
     const sortTasks = (a, b) => {
         if (sortBy === "dateCreation") return a.date_creation.localeCompare(b.date_creation);
@@ -31,12 +31,6 @@ function TaskList({ tasks, setTasks, relations, selectedCategories = [], selecte
         setTasks(updatedList);
     };
 
-    // Suppression d'une tâche
-    const handleDeleteTask = (taskId) => {
-        const updatedList = tasks.filter(t => t.id !== taskId);
-        setTasks(updatedList);
-    };
-
     return (
         <div className="task-list-container">
             {filteredTasks.length === 0 ? (
@@ -48,7 +42,7 @@ function TaskList({ tasks, setTasks, relations, selectedCategories = [], selecte
                             key={task.id}
                             task={task}
                             onUpdate={handleUpdateTask}
-                            onDelete={handleDeleteTask}
+                            onDelete={onDelete}
                         />
                     ))}
                 </ul>

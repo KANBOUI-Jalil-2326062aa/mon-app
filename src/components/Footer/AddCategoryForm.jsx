@@ -49,7 +49,6 @@ function AddCategoryForm({ onAddCategory }) {
                     className="form-control"
                 />
             </div>
-
             <div className="form-group checkbox-group">
                 <label>
                     <input
